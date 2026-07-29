@@ -1,0 +1,32 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "digiplus-value-case-study"
+version = "0.2.0"
+description = "Subscription value, renewal, and portfolio P&L case study"
+requires-python = ">=3.10"
+dependencies = [
+  "numpy>=1.26,<3",
+  "pandas>=2.1,<3",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8,<9", "ruff>=0.12,<1"]
+
+[project.scripts]
+digiplus-case = "digiplus_case.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 88
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
