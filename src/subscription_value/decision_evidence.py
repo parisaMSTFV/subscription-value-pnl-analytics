@@ -177,10 +177,6 @@ def build_decision_metrics(
         "first_month_contribution_per_active_member": first_unit_contribution,
         "last_month_contribution_per_active_member": last_unit_contribution,
         "worst_grid_fee_multiplier": float(worst["fee_multiplier"]),
-        "worst_grid_direct_cost_multiplier": float(
-            worst["direct_cost_multiplier"]
-        ),
-        "worst_grid_portfolio_contribution": float(
-            worst["portfolio_contribution"]
-        ),
+        "worst_grid_direct_cost_multiplier": float(worst["direct_cost_multiplier"]),
+        "worst_grid_portfolio_contribution": float(worst["portfolio_contribution"]),
     }

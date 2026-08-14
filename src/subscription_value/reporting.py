@@ -88,10 +88,7 @@ def write_decision_report(
             f"{float(metrics['contribution_excluding_membership_fee']):,.2f} |"
         ),
         f"| Membership-fee share of contribution | {fee_share:.1%} |",
-        (
-            "| Champion share of active-segment contribution | "
-            f"{champion_share:.1%} |"
-        ),
+        (f"| Champion share of active-segment contribution | {champion_share:.1%} |"),
         "",
         "## Operating interpretation",
         "",
@@ -193,9 +190,9 @@ def write_decision_figures(
     plt.close(fig)
 
     monthly = monthly_member_trend.sort_values("month").copy()
-    monthly["contribution_per_active_member"] = monthly[
-        "operating_contribution"
-    ].div(monthly["active_members"])
+    monthly["contribution_per_active_member"] = monthly["operating_contribution"].div(
+        monthly["active_members"]
+    )
     fig, left = plt.subplots(figsize=(9, 4.8))
     right = left.twinx()
     left.plot(
@@ -229,9 +226,7 @@ def write_decision_figures(
         renewal_cohorts["renewal_rate"],
         color="#457B9D",
     )
-    for bar, complete in zip(
-        bars, renewal_cohorts["cohort_complete"], strict=True
-    ):
+    for bar, complete in zip(bars, renewal_cohorts["cohort_complete"], strict=True):
         if not complete:
             bar.set_hatch("//")
     ax.set_ylim(0, 1)
