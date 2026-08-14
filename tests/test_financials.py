@@ -3,8 +3,8 @@ from __future__ import annotations
 import pandas as pd
 import pytest
 
-from digiplus_case.portfolio import build_portfolio_pnl
-from digiplus_case.revenue import allocate_revenue_by_plan
+from subscription_value.portfolio import build_portfolio_pnl
+from subscription_value.revenue import allocate_revenue_by_plan
 
 
 def _subscriptions() -> pd.DataFrame:

@@ -3,7 +3,7 @@ from __future__ import annotations
 import pandas as pd
 import pytest
 
-from digiplus_case.renewal import (
+from subscription_value.renewal import (
     build_renewal_detail,
     build_renewal_summary,
 )

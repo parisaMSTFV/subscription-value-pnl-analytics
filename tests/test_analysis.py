@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import pandas as pd
 
-from digiplus_case.analysis import (
+from subscription_value.analysis import (
     build_customer_period,
     build_segment_performance,
 )

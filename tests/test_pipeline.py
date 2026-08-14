@@ -1,7 +1,7 @@
 from __future__ import annotations
 
-from digiplus_case.cli import run_analysis
-from digiplus_case.synthetic import generate_synthetic_inputs
+from subscription_value.cli import run_analysis
+from subscription_value.synthetic import generate_synthetic_inputs
 
 
 def test_demo_runs_end_to_end(tmp_path) -> None:

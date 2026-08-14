@@ -1,7 +1,7 @@
 # Data Provenance
 
 The public demo uses data created by
-`digiplus_case.synthetic.generate_synthetic_inputs`.
+`subscription_value.synthetic.generate_synthetic_inputs`.
 
 The generator creates:
 

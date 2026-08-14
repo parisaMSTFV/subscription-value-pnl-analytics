@@ -3,7 +3,7 @@ requires = ["setuptools>=69"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "digiplus-value-case-study"
+name = "subscription-value-pnl-analytics"
 version = "0.2.0"
 description = "Subscription value, renewal, and portfolio P&L case study"
 requires-python = ">=3.10"
@@ -16,7 +16,7 @@ dependencies = [
 dev = ["pytest>=8,<9", "ruff>=0.12,<1"]
 
 [project.scripts]
-digiplus-case = "digiplus_case.cli:main"
+subscription-value = "subscription_value.cli:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
