@@ -22,5 +22,23 @@ jobs:
           cache: pip
       - run: python -m pip install --upgrade pip
       - run: python -m pip install -e ".[dev]"
-      - run: ruff check .
-      - run: pytest -q
+      - name: Lint and format check
+        run: |
+          ruff check .
+          ruff format --check .
+      - name: Test
+        env:
+          MPLCONFIGDIR: /tmp/matplotlib
+        run: pytest -q
+      - name: Validate external-input contract
+        env:
+          MPLCONFIGDIR: /tmp/matplotlib
+        run: make fixture
+      - name: Reproduce aggregate decision evidence
+        env:
+          MPLCONFIGDIR: /tmp/matplotlib
+        run: |
+          make reproduce
+          git diff --exit-code -- reports/*.csv reports/*.json reports/*.md
+      - name: Check sensitive content
+        run: python scripts/check_sensitive.py

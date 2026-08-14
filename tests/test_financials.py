@@ -1,7 +1,8 @@
 from __future__ import annotations
 
+import math
+
 import pandas as pd
-import pytest
 
 from subscription_value.portfolio import build_portfolio_pnl
 from subscription_value.revenue import allocate_revenue_by_plan
@@ -50,7 +51,7 @@ def test_revenue_uses_only_overlapping_plan_days() -> None:
     )
 
     assert allocation.loc[0, "overlap_days"] == 10
-    assert allocation.loc[0, "allocated_revenue"] == pytest.approx(100.0)
+    assert math.isclose(allocation.loc[0, "allocated_revenue"], 100.0)
 
 
 def test_portfolio_pnl_reconciles_all_components() -> None:
@@ -62,5 +63,5 @@ def test_portfolio_pnl_reconciles_all_components() -> None:
     ).iloc[0]
 
     expected = 100.0 + 30.0 - 2.0 - 5.0 - 1.0
-    assert pnl["membership_fee_revenue"] == pytest.approx(100.0)
-    assert pnl["portfolio_contribution"] == pytest.approx(expected)
+    assert math.isclose(pnl["membership_fee_revenue"], 100.0)
+    assert math.isclose(pnl["portfolio_contribution"], expected)

@@ -1,6 +1,6 @@
 # Data Provenance
 
-The public demo uses data created by
+The committed run uses data created by
 `subscription_value.synthetic.generate_synthetic_inputs`.
 
 The generator creates:
@@ -11,6 +11,10 @@ The generator creates:
 - fee revenue, commerce margin, shipping contribution, and direct benefit
   costs.
 
-Customer IDs, dates, prices, and financial results are synthetic. No row-level
-company or customer data is included in this repository. The fixed random seed
-makes the demo reproducible.
+Customer IDs, dates, prices, and financial results are synthetic. The fixed
+random seed makes the run reproducible. Generated row-level files are excluded
+from version control; aggregate reports and figures are committed.
+
+`data/fixture/` contains nine fictional activity rows and three fictional plan
+rows. The fixture verifies the external CSV contract in CI and is not the source
+of the reported portfolio results.

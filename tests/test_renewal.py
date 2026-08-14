@@ -1,7 +1,8 @@
 from __future__ import annotations
 
+import math
+
 import pandas as pd
-import pytest
 
 from subscription_value.renewal import (
     build_renewal_detail,
@@ -47,5 +48,5 @@ def test_renewal_summary_uses_only_eligible_plans() -> None:
 
     assert summary["eligible_subscriptions"] == 3
     assert summary["renewed_subscriptions"] == 1
-    assert summary["renewal_rate"] == pytest.approx(1 / 3)
+    assert math.isclose(summary["renewal_rate"], 1 / 3)
     assert summary["median_renewal_gap_days"] == 0

@@ -4,10 +4,11 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "subscription-value-pnl-analytics"
-version = "0.2.0"
-description = "Subscription value, renewal, and portfolio P&L case study"
+version = "0.3.0"
+description = "Subscription renewal, unit economics, and portfolio P&L analysis"
 requires-python = ">=3.10"
 dependencies = [
+  "matplotlib>=3.8,<4",
   "numpy>=1.26,<3",
   "pandas>=2.1,<3",
 ]
