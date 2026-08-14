@@ -10,9 +10,19 @@ from .analysis import (
     build_monthly_member_trend,
     build_segment_performance,
 )
+from .decision_evidence import (
+    build_decision_metrics,
+    build_pnl_sensitivity,
+    build_renewal_cohorts,
+)
 from .portfolio import build_portfolio_pnl
 from .renewal import build_renewal_detail, build_renewal_summary
-from .reporting import write_summary
+from .reporting import (
+    write_decision_figures,
+    write_decision_report,
+    write_metrics,
+    write_summary,
+)
 from .synthetic import generate_synthetic_inputs
 
 
@@ -61,6 +71,41 @@ def run_analysis(
     return tables
 
 
+def write_decision_evidence(
+    tables: dict[str, pd.DataFrame],
+    reports_dir: str | Path,
+) -> dict[str, float | int | str]:
+    reports = Path(reports_dir)
+    figures = reports / "figures"
+    reports.mkdir(parents=True, exist_ok=True)
+    renewal_cohorts = build_renewal_cohorts(tables["renewal_detail"])
+    sensitivity = build_pnl_sensitivity(tables["portfolio_pnl"])
+    metrics = build_decision_metrics(
+        tables["portfolio_pnl"],
+        tables["renewal_summary"],
+        tables["segment_performance"],
+        tables["monthly_member_trend"],
+        sensitivity,
+    )
+    renewal_cohorts.to_csv(reports / "renewal_cohorts.csv", index=False)
+    sensitivity.to_csv(reports / "pnl_sensitivity.csv", index=False)
+    tables["portfolio_pnl"].to_csv(reports / "portfolio_pnl.csv", index=False)
+    tables["renewal_summary"].to_csv(reports / "renewal_summary.csv", index=False)
+    tables["monthly_member_trend"].to_csv(
+        reports / "monthly_member_trend.csv", index=False
+    )
+    write_metrics(reports / "metrics.json", metrics)
+    write_decision_report(reports / "decision_report.md", metrics)
+    write_decision_figures(
+        figures,
+        tables["portfolio_pnl"],
+        tables["monthly_member_trend"],
+        renewal_cohorts,
+        sensitivity,
+    )
+    return metrics
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(
         description="Analyze subscription value, renewal, and portfolio P&L."
@@ -73,6 +118,7 @@ def main() -> None:
     )
     parser.add_argument("--data-dir", default="data/sample")
     parser.add_argument("--output-dir", default="artifacts")
+    parser.add_argument("--reports-dir", default="reports")
     parser.add_argument("--start", default="2025-07-01")
     parser.add_argument("--end", default="2025-10-01")
     parser.add_argument("--as-of", default="2026-01-01")
@@ -109,6 +155,7 @@ def main() -> None:
         args.end,
         args.as_of,
     )
+    write_decision_evidence(tables, args.reports_dir)
     pnl = tables["portfolio_pnl"].iloc[0]
     renewal = tables["renewal_summary"].iloc[0]
     print(f"Active members: {int(pnl['active_members']):,}")
@@ -116,6 +163,7 @@ def main() -> None:
     print(f"Portfolio contribution: {pnl['portfolio_contribution']:,.2f}")
     print(f"Renewal rate: {renewal['renewal_rate']:.1%}")
     print(f"Reports written to {Path(args.output_dir).resolve()}")
+    print(f"Decision evidence written to {Path(args.reports_dir).resolve()}")
 
 
 if __name__ == "__main__":

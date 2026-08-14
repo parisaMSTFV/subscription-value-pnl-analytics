@@ -56,6 +56,18 @@ The monthly table reports active members, orders, NMV, and operating
 contribution. It is intended for trend review and investigation of changes in
 member economics.
 
+### 5. Separate membership-base movement from unit economics
+
+The executed report compares active-member count with operating contribution
+per active member. This prevents a decline in aggregate contribution from being
+interpreted automatically as weaker per-member economics.
+
+### 6. Stress fee and direct-cost assumptions
+
+The sensitivity grid changes realized membership-fee revenue and combined
+benefit/service cost from 0.8x to 1.2x. Commerce and shipping contribution stay
+fixed. The grid is an arithmetic stress test, not a behavioral forecast.
+
 ## How to use the outputs
 
 - Use `portfolio_pnl.csv` for period-level economics and reconciliation.
@@ -64,9 +76,14 @@ member economics.
 - Use `monthly_member_trend.csv` to find months that need deeper diagnosis.
 - Use `customer_period.csv` to trace every aggregate back to customer-level
   inputs.
+- Use `reports/decision_report.md` for the executed operating interpretation.
+- Use `reports/pnl_sensitivity.csv` to compare the configured fee/cost scenarios.
 
 ## Analytical boundary
 
 The pipeline describes observed portfolio performance. Measuring the
 incremental effect of membership requires a separate experimental or causal
 design and is outside this case study.
+
+The [input contract](INPUT_SCHEMA.md) defines the two accepted CSV files and the
+temporal parameters used for period and renewal eligibility.
