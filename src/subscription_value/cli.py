@@ -26,6 +26,11 @@ from .reporting import (
 from .synthetic import generate_synthetic_inputs
 
 
+def _write_report_csv(table: pd.DataFrame, path: Path) -> None:
+    """Write stable numeric evidence across supported Python/NumPy versions."""
+    table.to_csv(path, index=False, float_format="%.8f")
+
+
 def run_analysis(
     activity: pd.DataFrame,
     subscriptions: pd.DataFrame,
@@ -87,12 +92,12 @@ def write_decision_evidence(
         tables["monthly_member_trend"],
         sensitivity,
     )
-    renewal_cohorts.to_csv(reports / "renewal_cohorts.csv", index=False)
-    sensitivity.to_csv(reports / "pnl_sensitivity.csv", index=False)
-    tables["portfolio_pnl"].to_csv(reports / "portfolio_pnl.csv", index=False)
-    tables["renewal_summary"].to_csv(reports / "renewal_summary.csv", index=False)
-    tables["monthly_member_trend"].to_csv(
-        reports / "monthly_member_trend.csv", index=False
+    _write_report_csv(renewal_cohorts, reports / "renewal_cohorts.csv")
+    _write_report_csv(sensitivity, reports / "pnl_sensitivity.csv")
+    _write_report_csv(tables["portfolio_pnl"], reports / "portfolio_pnl.csv")
+    _write_report_csv(tables["renewal_summary"], reports / "renewal_summary.csv")
+    _write_report_csv(
+        tables["monthly_member_trend"], reports / "monthly_member_trend.csv"
     )
     write_metrics(reports / "metrics.json", metrics)
     write_decision_report(reports / "decision_report.md", metrics)

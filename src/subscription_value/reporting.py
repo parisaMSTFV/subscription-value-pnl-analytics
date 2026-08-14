@@ -125,8 +125,12 @@ def write_metrics(
     output_path: str | Path,
     metrics: dict[str, float | int | str],
 ) -> None:
+    canonical = {
+        key: round(value, 8) if isinstance(value, float) else value
+        for key, value in metrics.items()
+    }
     Path(output_path).write_text(
-        json.dumps(metrics, indent=2, sort_keys=True) + "\n",
+        json.dumps(canonical, indent=2, sort_keys=True) + "\n",
         encoding="utf-8",
     )
 

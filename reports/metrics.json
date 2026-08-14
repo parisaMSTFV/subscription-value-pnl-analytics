@@ -1,18 +1,18 @@
 {
-  "active_member_change_first_to_last_month": -0.32530120481927716,
+  "active_member_change_first_to_last_month": -0.3253012,
   "active_members": 207,
   "analysis_period_end_exclusive": "2025-10-01",
   "analysis_period_start": "2025-07-01",
-  "champion_share_of_active_segment_contribution": 0.5017361592799552,
+  "champion_share_of_active_segment_contribution": 0.50173616,
   "contribution_excluding_membership_fee": 5422.16,
   "eligible_subscriptions": 514,
-  "first_month_contribution_per_active_member": 12.842409638554216,
-  "last_month_contribution_per_active_member": 13.16964285714286,
-  "membership_fee_revenue": 49303.528222222216,
-  "membership_fee_share_of_contribution": 0.9009211181048564,
-  "portfolio_contribution": 54725.68822222222,
-  "renewal_rate": 0.4027237354085603,
+  "first_month_contribution_per_active_member": 12.84240964,
+  "last_month_contribution_per_active_member": 13.16964286,
+  "membership_fee_revenue": 49303.52822222,
+  "membership_fee_share_of_contribution": 0.90092112,
+  "portfolio_contribution": 54725.68822222,
+  "renewal_rate": 0.40272374,
   "worst_grid_direct_cost_multiplier": 1.2,
   "worst_grid_fee_multiplier": 0.8,
-  "worst_grid_portfolio_contribution": 44092.74057777778
+  "worst_grid_portfolio_contribution": 44092.74057778
 }
