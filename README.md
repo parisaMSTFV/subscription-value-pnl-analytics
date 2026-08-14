@@ -1,7 +1,11 @@
-# DigiPlus Subscription Value & P&L Case Study
+# Subscription Value & Portfolio P&L Analytics
 
-This project turns subscription activity, plan revenue, and direct cost data
-into an operating view of member value.
+[![CI](https://github.com/parisaMSTFV/subscription-value-pnl-analytics/actions/workflows/ci.yml/badge.svg)](https://github.com/parisaMSTFV/subscription-value-pnl-analytics/actions/workflows/ci.yml)
+![Python](https://img.shields.io/badge/python-3.10%2B-3776AB)
+[![Data](https://img.shields.io/badge/data-100%25%20synthetic-0F766E)](DATA_PROVENANCE.md)
+
+This reproducible, public-safe project turns subscription activity, plan
+revenue, and direct cost data into an operating view of member value.
 
 It is designed around four business questions:
 
@@ -28,7 +32,7 @@ is a portfolio performance view, not an estimate of incremental impact.
 
 ```bash
 python -m pip install -e ".[dev]"
-digiplus-case demo
+subscription-value demo
 ```
 
 The demo creates a reproducible synthetic dataset, runs the full analysis, and
@@ -37,7 +41,7 @@ writes the outputs to `artifacts/`.
 To run the pipeline on another dataset:
 
 ```bash
-digiplus-case analyze \
+subscription-value analyze \
   --data-dir path/to/input \
   --output-dir path/to/output \
   --start 2025-07-01 \
@@ -48,7 +52,7 @@ digiplus-case analyze \
 ## Project structure
 
 ```text
-src/digiplus_case/     analysis pipeline and synthetic data generator
+src/subscription_value/ analysis pipeline and synthetic data generator
 tests/                 metric, reconciliation, and end-to-end tests
 docs/                  case-study design and metric definitions
 sql/                   warehouse extraction contract
