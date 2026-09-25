@@ -3,9 +3,10 @@ from __future__ import annotations
 import math
 
 import pandas as pd
+import pytest
 
 from subscription_value.portfolio import build_portfolio_pnl
-from subscription_value.revenue import allocate_revenue_by_plan
+from subscription_value.revenue import allocate_revenue_by_plan, prepare_subscriptions
 
 
 def _subscriptions() -> pd.DataFrame:
@@ -65,3 +66,12 @@ def test_portfolio_pnl_reconciles_all_components() -> None:
     expected = 100.0 + 30.0 - 2.0 - 5.0 - 1.0
     assert math.isclose(pnl["membership_fee_revenue"], 100.0)
     assert math.isclose(pnl["portfolio_contribution"], expected)
+
+
+def test_subscription_duration_cannot_be_fractional() -> None:
+    subscriptions = _subscriptions()
+    subscriptions["duration_days"] = subscriptions["duration_days"].astype(float)
+    subscriptions.loc[0, "duration_days"] = 30.5
+
+    with pytest.raises(ValueError, match="must contain integers"):
+        prepare_subscriptions(subscriptions)

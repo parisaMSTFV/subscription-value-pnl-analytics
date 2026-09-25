@@ -24,7 +24,7 @@ def build_renewal_detail(
     frame["next_start"] = frame.groupby("customer_id")["start_date"].shift(-1)
     frame["renewal_gap_days"] = frame["next_start"].sub(frame["plan_end"]).dt.days
     frame["eligible_for_renewal"] = (
-        frame["plan_end"].add(pd.Timedelta(days=grace_days)).le(as_of)
+        frame["plan_end"].add(pd.to_timedelta(grace_days, unit="D")).le(as_of)
     )
     frame["renewed"] = (
         frame["eligible_for_renewal"]

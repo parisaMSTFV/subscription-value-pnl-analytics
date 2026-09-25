@@ -111,7 +111,7 @@ def write_decision_evidence(
     return metrics
 
 
-def main() -> None:
+def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         description="Analyze subscription value, renewal, and portfolio P&L."
     )
@@ -121,15 +121,19 @@ def main() -> None:
         nargs="?",
         default="demo",
     )
-    parser.add_argument("--data-dir", default="data/sample")
-    parser.add_argument("--output-dir", default="artifacts")
-    parser.add_argument("--reports-dir", default="reports")
+    parser.add_argument("--data-dir", default="local-runs/latest/data")
+    parser.add_argument("--output-dir", default="local-runs/latest/artifacts")
+    parser.add_argument("--reports-dir", default="local-runs/latest/reports")
     parser.add_argument("--start", default="2025-07-01")
     parser.add_argument("--end", default="2025-10-01")
     parser.add_argument("--as-of", default="2026-01-01")
     parser.add_argument("--customers", type=int, default=1_200)
     parser.add_argument("--seed", type=int, default=42)
-    args = parser.parse_args()
+    return parser
+
+
+def main() -> None:
+    args = build_parser().parse_args()
 
     data_dir = Path(args.data_dir)
     if args.command in {"generate", "demo"}:

@@ -15,8 +15,8 @@ jobs:
       matrix:
         python-version: ["3.10", "3.11", "3.12"]
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
         with:
           python-version: ${{ matrix.python-version }}
           cache: pip
@@ -38,7 +38,7 @@ jobs:
         env:
           MPLCONFIGDIR: /tmp/matplotlib
         run: |
-          make reproduce
+          make verify-evidence
           git diff --exit-code -- reports/*.csv reports/*.json reports/*.md
       - name: Check sensitive content
         run: python scripts/check_sensitive.py

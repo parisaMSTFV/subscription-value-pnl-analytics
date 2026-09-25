@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import numpy as np
 import pandas as pd
 
 REQUIRED_SUBSCRIPTION_COLUMNS = {
@@ -17,9 +18,19 @@ def prepare_subscriptions(subscriptions: pd.DataFrame) -> pd.DataFrame:
         raise ValueError(f"Subscription data is missing columns: {sorted(missing)}")
 
     frame = subscriptions.copy()
+    if frame[list(REQUIRED_SUBSCRIPTION_COLUMNS)].isna().any().any():
+        raise ValueError("Subscription data cannot contain null required values.")
     frame["start_date"] = pd.to_datetime(frame["start_date"])
-    frame["duration_days"] = frame["duration_days"].astype(int)
-    frame["paid_price"] = frame["paid_price"].astype(float)
+    duration = pd.to_numeric(frame["duration_days"], errors="raise")
+    paid_price = pd.to_numeric(frame["paid_price"], errors="raise")
+    if not np.isfinite(duration.to_numpy(dtype=float)).all():
+        raise ValueError("duration_days must contain only finite values.")
+    if duration.mod(1).ne(0).any():
+        raise ValueError("duration_days must contain integers.")
+    if not np.isfinite(paid_price.to_numpy(dtype=float)).all():
+        raise ValueError("paid_price must contain only finite values.")
+    frame["duration_days"] = duration.astype(int)
+    frame["paid_price"] = paid_price.astype(float)
     if frame["subscription_id"].duplicated().any():
         raise ValueError("subscription_id must be unique.")
     if frame["duration_days"].le(0).any():

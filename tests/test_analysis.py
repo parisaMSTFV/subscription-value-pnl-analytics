@@ -1,10 +1,13 @@
 from __future__ import annotations
 
+import numpy as np
 import pandas as pd
+import pytest
 
 from subscription_value.analysis import (
     build_customer_period,
     build_segment_performance,
+    prepare_activity,
 )
 
 
@@ -104,3 +107,11 @@ def test_segment_performance_reconciles_customer_totals() -> None:
     assert segment["orders"].sum() == customer_period["orders"].sum()
     assert segment["nmv"].sum() == customer_period["nmv"].sum()
     assert segment["customers"].sum() == customer_period["customer_id"].nunique()
+
+
+def test_activity_rejects_non_finite_metrics() -> None:
+    activity = _activity_rows()
+    activity.loc[0, "nmv"] = np.inf
+
+    with pytest.raises(ValueError, match="nmv must contain only finite values"):
+        prepare_activity(activity)

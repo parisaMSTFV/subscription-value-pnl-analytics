@@ -47,7 +47,7 @@ def generate_synthetic_inputs(
                 break
             duration_days = int(rng.choice([30, 90], p=[0.58, 0.42]))
             start_date = dates[start_index]
-            plan_end = start_date + pd.Timedelta(days=duration_days)
+            plan_end = start_date + pd.to_timedelta(duration_days, unit="D")
             paid_price = (180.0 if duration_days == 30 else 450.0) * float(
                 rng.uniform(0.86, 1.0)
             )
