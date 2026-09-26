@@ -1,6 +1,9 @@
-.PHONY: reproduce fixture check
+.PHONY: reproduce verify-evidence fixture check
 
 reproduce:
+	MPLCONFIGDIR=.matplotlib subscription-value demo --data-dir local-runs/latest/data --output-dir local-runs/latest/artifacts --reports-dir local-runs/latest/reports
+
+verify-evidence:
 	MPLCONFIGDIR=.matplotlib subscription-value demo --data-dir data/sample --output-dir artifacts --reports-dir reports
 
 fixture:

@@ -39,11 +39,24 @@ def prepare_activity(activity: pd.DataFrame) -> pd.DataFrame:
         raise ValueError(f"Activity data is missing columns: {sorted(missing)}")
 
     frame = activity.copy()
+    if frame[list(REQUIRED_ACTIVITY_COLUMNS)].isna().any().any():
+        raise ValueError("Activity data cannot contain null required values.")
     frame["day"] = pd.to_datetime(frame["day"])
     if frame.duplicated(["customer_id", "day"]).any():
         raise ValueError("Activity data must contain one row per customer and day.")
     if not frame["membership_active"].isin([0, 1, False, True]).all():
         raise ValueError("membership_active must contain only 0 and 1.")
+
+    for column in ACTIVITY_METRICS:
+        frame[column] = pd.to_numeric(frame[column], errors="raise")
+        if not np.isfinite(frame[column].to_numpy(dtype=float)).all():
+            raise ValueError(f"{column} must contain only finite values.")
+    for column in ("orders", "items"):
+        if frame[column].lt(0).any() or frame[column].mod(1).ne(0).any():
+            raise ValueError(f"{column} must contain non-negative integers.")
+    for column in ("benefit_cost", "service_cost"):
+        if frame[column].lt(0).any():
+            raise ValueError(f"{column} cannot be negative.")
 
     frame["membership_active"] = frame["membership_active"].astype(int)
     return frame

@@ -40,8 +40,10 @@ make check
 ```
 
 `make reproduce` regenerates the synthetic inputs, detailed artifacts,
-aggregate tables, decision report, and four figures. To verify the external
-input contract on a small committed fixture:
+aggregate tables, decision report, and four figures under the ignored
+`local-runs/latest/` directory. The validated aggregate evidence committed in
+`reports/` remains unchanged. To verify the external input contract on a small
+committed fixture:
 
 ```bash
 make fixture
